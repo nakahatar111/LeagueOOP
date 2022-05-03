@@ -7,7 +7,8 @@ using namespace std;
 class Team
 {
     public:
-
+        Team(string name);
+        
     private:
 };
 
