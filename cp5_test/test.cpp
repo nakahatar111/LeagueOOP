@@ -1,13 +1,15 @@
 #include <pthread.h>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <stdio.h>
 #include <unistd.h>
 #include <vector>
+#include <string.h>
 using namespace std;
 //Info stores the name and Index
 //Node stores Info and whether the Node is a Player, Team, Year
   // Additionally, Node stores two vectors, Adj Players and Adj Team/Year
-
 
 class Info{
   public:
@@ -35,8 +37,16 @@ class Node{
       data = info;
       type = key;
     }
+    Node(const Node& other){
+      data = other.data;
+      type = other.type;
+      team = other.team;
+      player = other.player;
+    }
     string getName(){return data.getName();}
     int getIndex(){return data.getIndex();}
+    Info& getInfo(){return data;}
+    int getType(){return type;}
     vector<Info>& getTeamVec(){return team;}
     vector<Info>& getPlayerVec(){return player;}
 
@@ -70,6 +80,72 @@ void printGraph(vector<Node>& adj){ //simply look through the two Vectors inside
     cout << endl;
   }
 }
+
+bool findTeamAdj(vector<Node> adj, Info obj1, Info obj2){
+  vector<Info> TeamVec = adj.at(obj1.getIndex()).getTeamVec();
+  for(Info x : TeamVec)
+    if(!x.getName().compare(obj2.getName()))
+      return true;
+  return false;
+}
+
+void ReadFile(string fileName, vector<Node>& adj){
+  string line;
+  ifstream myfile (fileName);
+  if (myfile.is_open()){
+    int index = 0;
+    while(getline(myfile,line)){
+      string word;
+      istringstream ss(line);
+      Info arr[3];
+      int type_counter = 0;
+      while(getline(ss, word, ',')){
+        int type = type_counter%3;
+        type_counter++;
+        if(type == 2)
+          word = arr[1].getName() + "_" + word;
+
+        //find if obj already exists
+        bool exist = false;
+        int counter = 0;
+        int idx = 0;
+        for(Node x : adj){
+          if(!word.compare(x.getName())){
+            exist = true;
+            idx = counter;
+          }
+          counter++;
+        }
+        if(!exist){
+          Info infoObj(word, index);
+          adj.push_back(Node(infoObj, type));
+          arr[type] = infoObj;
+          index++;
+        }
+        else{
+          Info infoObj = adj.at(idx).getInfo();
+          arr[type] = infoObj;
+        }
+      }
+      if(!findTeamAdj(adj, arr[1], arr[2]))
+        addTeamEdge(adj, arr[1], arr[2]);
+      if(!findTeamAdj(adj, arr[2], arr[0]))
+        addTeamEdge(adj, arr[2], arr[0]);
+    }
+    //connect red edges
+    for(Node x : adj){
+      if(x.getType() == 2){
+        vector<Info> TeamVec = x.getTeamVec();
+        for(int i = 0; i < TeamVec.size() - 1 ; i++)
+          for(int j = i + 1; j < TeamVec.size(); j++)
+            addPlayerEdge(adj, TeamVec.at(i), TeamVec.at(j));
+      }
+    }
+    myfile.close();
+  }
+  else
+    cout << "Could not open file " << fileName << endl;
+}
  
 int main (int argc, char *argv[]){
   //Initalize adjacency list of Nodes
@@ -77,7 +153,67 @@ int main (int argc, char *argv[]){
   //--> Nodes will have two vectors (Player adj Vector and Team adj Vector) + any Info needed
   vector<Node> adj;
 
+  string file = "input.txt";
+  ReadFile(file, adj);
+  printGraph(adj);
 
+
+
+}
+
+/*
+What we need to do::
+
+Case 1 (File) -> read inputfile
+  Given input fileName, make function called ReadFile(fileName, vector<Node> adj)
+  int index = 0; **for index to be stored inside Node (reason -> refer to line 104/105)
+  For each line of inputFile:
+    Parse into: Name, Team, Year **as strings
+    if(Name/Team/Year does not exist)
+      Make Info(string Name/Team/Year, index);
+      index++
+      adj.push_back(Info) add Nodes to adj list x3 for Name/Team/Year
+    if(Name/Team/Year does exist)
+      find it inside adj list to get its index (Reason: need to add edges so we need to find ALL THREE NODES)
+    addTeamEdge() -> add edges between these Name/Team/Year
+  After "Black edges" are fully made, we make the "Red edges"
+  For Every Year Node (Type = 2), connect all Players together inside its Player Vector (Refer to line 147)
+
+
+
+Case 2a (Player1, , ) -> print Player1's list of teams, sorted by year
+  Get index of Player1 in array
+  Go to Player1 Node
+  Do Node.getTeamVec() to get teams/years of player
+  print
+
+Case 2b (Player1, , Team) -> print when PLayer1 played on Team
+  Get index of Player1 in array
+  Go to Player1 Node
+  Do Node.getTeamVec() to get teams/years of player
+  Within the vector of teams, if teamName == Team, print
+
+Case 3 ( , , Team) -> print all players who played on Team
+  Get index of Team in array
+  Go to Team Node
+  Do Node.getTeamVec() to get the Years the team played
+  For each Year,
+    go to Year Node in array
+    Do Node.getPlayerVec() to get Players under that year
+    Print
+
+Case 4a (Player1, Player2, ) -> Shortest Path from Player1 to Player2
+  Simple BFS on Player Vector of the Nodes (.getPlayerVec())***keeps track of the path
+  print path
+
+*/
+
+
+
+
+
+
+  /*
   //Info holds name and index when its inside the vector
   //-> Reason for index: Once you go thru adj node, U want to jump to where that adj node is in the adjacency list vector
   //-> Visually, u want to go from the horizontal vector to the vertical vector. To jump to the right spot, U need to know its index
@@ -154,52 +290,4 @@ int main (int argc, char *argv[]){
   addPlayerEdge(adj, Katie, Yu);
   addPlayerEdge(adj, Yu, Necati);
   printGraph(adj);
-
-}
-
-/*
-What we need to do::
-
-Case 1 (File) -> read inputfile
-  Given input fileName, make function called ReadFile(fileName, vector<Node> adj)
-  int index = 0; **for index to be stored inside Node (reason -> refer to line 104/105)
-  For each line of inputFile:
-    Parse into: Name, Team, Year **as strings
-    if(Name/Team/Year does not exist)
-      Make Info(string Name/Team/Year, index);
-      index++
-      adj.push_back(Info) add Nodes to adj list x3 for Name/Team/Year
-    if(Name/Team/Year does exist)
-      find it inside adj list to get its index (Reason: need to add edges so we need to find ALL THREE NODES)
-    addTeamEdge() -> add edges between these Name/Team/Year
-  After "Black edges" are fully made, we make the "Red edges"
-  For Every Year Node (Type = 2), connect all Players together inside its Player Vector (Refer to line 147)
-
-
-
-Case 2a (Player1, , ) -> print Player1's list of teams, sorted by year
-  Get index of Player1 in array
-  Go to Player1 Node
-  Do Node.getTeamVec() to get teams/years of player
-  print
-
-Case 2b (Player1, , Team) -> print when PLayer1 played on Team
-  Get index of Player1 in array
-  Go to Player1 Node
-  Do Node.getTeamVec() to get teams/years of player
-  Within the vector of teams, if teamName == Team, print
-
-Case 3 ( , , Team) -> print all players who played on Team
-  Get index of Team in array
-  Go to Team Node
-  Do Node.getTeamVec() to get the Years the team played
-  For each Year,
-    go to Year Node in array
-    Do Node.getPlayerVec() to get Players under that year
-    Print
-
-Case 4a (Player1, Player2, ) -> Shortest Path from Player1 to Player2
-  Simple BFS on Player Vector of the Nodes (.getPlayerVec())***keeps track of the path
-  print path
-
-*/
+  */
