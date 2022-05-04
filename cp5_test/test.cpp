@@ -59,11 +59,20 @@ class Node{
 
 void addTeamEdge(vector<Node>& adj, Info obj1, Info obj2){ //when adding edges, we got to index of obj1, and append obj2 to the Team Vector of Info
   adj.at(obj1.getIndex()).getTeamVec().push_back(obj2);
+  adj.at(obj2.getIndex()).getTeamVec().push_back(obj1);
+
 }
+
 
 void addPlayerEdge(vector<Node>& adj, Info obj1, Info obj2){//when adding edges, we got to index of obj1, and append obj2 to the Player Vector of Info
   adj.at(obj1.getIndex()).getPlayerVec().push_back(obj2);
   adj.at(obj2.getIndex()).getPlayerVec().push_back(obj1);
+}
+//obj1 = y and obj2 = p
+void addYearEdge(vector<Node>& adj, Info obj1, Info obj2){//when adding edges, we got to index of obj1, and append obj2 to the Player Vector of Info
+  adj.at(obj1.getIndex()).getPlayerVec().push_back(obj2);
+  adj.at(obj2.getIndex()).getTeamVec().push_back(obj1);
+  
 }
 
 void printGraph(vector<Node>& adj){ //simply look through the two Vectors inside Node
@@ -129,16 +138,20 @@ void ReadFile(string fileName, vector<Node>& adj){
       }
       if(!findTeamAdj(adj, arr[1], arr[2]))
         addTeamEdge(adj, arr[1], arr[2]);
-      if(!findTeamAdj(adj, arr[2], arr[0]))
-        addTeamEdge(adj, arr[2], arr[0]);
+      if(!findTeamAdj(adj, arr[0], arr[2]))
+        addYearEdge(adj, arr[2], arr[0]);
     }
     //connect red edges
+    
+  cout << "here" << endl;
     for(Node x : adj){
       if(x.getType() == 2){
-        vector<Info> TeamVec = x.getTeamVec();
-        for(int i = 0; i < TeamVec.size() - 1 ; i++)
-          for(int j = i + 1; j < TeamVec.size(); j++)
-            addPlayerEdge(adj, TeamVec.at(i), TeamVec.at(j));
+        vector<Info> PlayerVec = x.getPlayerVec();
+        for(int i = 0; i < PlayerVec.size() - 1 ; i++){
+          for(int j = i + 1; j < PlayerVec.size(); j++){
+            addPlayerEdge(adj, PlayerVec.at(i), PlayerVec.at(j));
+          } 
+        }
       }
     }
     myfile.close();
@@ -152,7 +165,6 @@ int main (int argc, char *argv[]){
   //-> Adjaceny List will be a vector of Nodes
   //--> Nodes will have two vectors (Player adj Vector and Team adj Vector) + any Info needed
   vector<Node> adj;
-
   string file = "input.txt";
   ReadFile(file, adj);
   printGraph(adj);
