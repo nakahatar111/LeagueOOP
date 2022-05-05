@@ -1,8 +1,11 @@
 all: graph
 
-graph: graph.o
-	g++ graph.o -o graph
+graph: graph.o hash.o
+	g++ graph.o hash.o -o graph
 
-graph.o: graph.cpp Info.h Node.h
+hash.o: hash.cpp hash.h
+	g++ -c hash.cpp
+
+graph.o: graph.cpp Info.h Node.h hash.h
 	g++ -c graph.cpp
 

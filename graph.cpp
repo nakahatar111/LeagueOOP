@@ -10,6 +10,7 @@ using namespace std;
 
 #include "Info.h"
 #include "Node.h"
+#include "hash.h"
 //Info stores the name and Index
 //Node stores Info and whether the Node is a Player, Team, Year
   // Additionally, Node stores two vectors, Adj Players and Adj Team/Year
