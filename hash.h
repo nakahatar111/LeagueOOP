@@ -2,7 +2,8 @@
 #define _HASH_H_
 
 #include <iostream>
-#include<bits/stdc++.h>
+#include <vector>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -10,13 +11,13 @@ class Hash
 {
     public:
         Hash(int V);
-        void insertItem(string key);
+        void insertItem(Node key);
         //void deleteItem(int key);
-        int hashFunction(char *str);
+        int hashFunction(string key);
         void displayHash();
     private: 
         int BUCKET;
-        list<string> *table;
+        vector<Node> *table;
 };
 
 #endif

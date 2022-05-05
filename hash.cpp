@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string.h>
+#include <vector>
+#include "Node.h"
 #include "hash.h"
 
 using namespace std;
@@ -8,27 +10,25 @@ using namespace std;
 Hash::Hash(int V)
 {
     this->BUCKET = V;
-    table = new list<string>[BUCKET];
+    table = new vector<Node>[BUCKET];
 }
 
-void Hash::insertItem(string key)
+void Hash::insertItem(Node key)
 {
-    char charArray[key.size()];
-    key.copy(charArray, key.size());
-    int index = hashFunction(charArray);
+    string name = key.getName();
+    int index = hashFunction(name);
     table[index].push_back(key);
 }
 
-int Hash::hashFunction(char *str)
+int Hash::hashFunction(string key)
 {
-    unsigned long hash = 5381;
-    int c;
-
-    while(c = *str++)
+    int sum = 0;
+    for(int i = 0; i < 3 || i < key.length(); i++)
     {
-        hash = ((hash << 5) + hash) + c;
+        char x = key.at(i);
+        sum += (int)x;
     }
-    return hash;
+    return sum;
 }
 
 void Hash::displayHash()
@@ -38,7 +38,7 @@ void Hash::displayHash()
         cout << i;
         for (auto x : table[i])
         {
-            cout << " --> " << x;
+            cout << x.getName() << endl;
             cout << endl;
         }
     }

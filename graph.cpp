@@ -123,6 +123,21 @@ int main (int argc, char *argv[]){
   //Initalize adjacency list of Nodes
   //-> Adjaceny List will be a vector of Nodes
   //--> Nodes will have two vectors (Player adj Vector and Team adj Vector) + any Info needed
+  
+  Info LA("LA", 0);
+  Info BC("BC",1); 
+  Info Mike("Mike",10); 
+  Node node1(LA, 1);
+  Node node2(BC, 1);
+  Node node3(Mike, 0);
+
+  //testing if hash works
+  int V = 64;
+  Hash hashtable(V);
+  int result = hashtable.hashFunction("shit");
+  cout << result << endl << endl;
+  hashtable.displayHash();
+
   vector<Node> adj;
   string file = "input.txt";
   ReadFile(file, adj);
