@@ -1,27 +1,16 @@
-#ifndef NODE
-#define NODE
+#ifndef _NODE_H_
+#define _NODE_H_
 class Node{
   public:
-    Node(){
-      type = -1;
-    }
-    Node(Info info, int key){ // key = 0,1,2 -> 0 = player, 1 = team, 2 = year
-      data = info;
-      type = key;
-    }
-    Node(const Node& other){
-      data = other.data;
-      type = other.type;
-      team = other.team;
-      player = other.player;
-    }
-    string getName(){return data.getName();}
-    int getIndex(){return data.getIndex();}
-    Info& getInfo(){return data;}
-    int getType(){return type;}
-    vector<Info>& getTeamVec(){return team;}
-    vector<Info>& getPlayerVec(){return player;}
-
+    Node();
+    Node(Info info, int key); // key = 0,1,2 -> 0 = player, 1 = team, 2 = year
+    Node(const Node& other);
+    string getName();
+    int getIndex();
+    Info& getInfo();
+    int getType();
+    vector<Info>& getTeamVec();
+    vector<Info>& getPlayerVec();
   private:
     int type = -1;
     Info data;
