@@ -4,6 +4,7 @@
 #include <vector>
 #include "Node.h"
 #include "hash.h"
+#include "Info.h"
 using namespace std;
 
 
@@ -21,27 +22,27 @@ Node::Node(const Node& other){
     player = other.player;
 }
 
-Node::string getName()
+string Node::getName()
 {
     return data.getName();
 }
-Node::int getIndex()
+int Node::getIndex()
 {
     return data.getIndex();
 }
-Node::Info& getInfo()
+Info& Node::getInfo()
 {
     return data;
 }
-Node::int getType()
+int Node::getType()
 {
     return type;
 }
-Node::vector<Info>& getTeamVec()
+vector<Info>& Node::getTeamVec()
 {
     return team;
 }
-Node::vector<Info>& getPlayerVec()
+vector<Info>& Node::getPlayerVec()
 {
     return player;
 }

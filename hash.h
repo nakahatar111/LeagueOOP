@@ -15,9 +15,11 @@ class Hash
         //void deleteItem(int key);
         int hashFunction(string key);
         void displayHash();
+        Node* searchHash(string key);
+        void addEdge();
     private: 
         int BUCKET;
-        vector<Node> *table;
+        vector<vector<Node>> table;
 };
 
 #endif

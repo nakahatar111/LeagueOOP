@@ -1,3 +1,8 @@
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+using namespace std;
+
 #ifndef INFO
 #define INFO
 class Info{
