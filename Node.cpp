@@ -26,10 +26,6 @@ string Node::getName()
 {
     return data.getName();
 }
-int Node::getIndex()
-{
-    return data.getIndex();
-}
 Info& Node::getInfo()
 {
     return data;

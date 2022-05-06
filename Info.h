@@ -9,16 +9,12 @@ class Info{
   public:
     Info(){
       name = "";
-      index = -1;
     }
-    Info(string str, int idx){
+    Info(string str){
       name = str;
-      index = idx;
     }
     string getName(){return name;}
-    int getIndex(){return index;}
   private:
     string name = "";
-    int index = -1;
 };
 #endif

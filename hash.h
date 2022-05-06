@@ -1,12 +1,5 @@
 #ifndef _HASH_H_
 #define _HASH_H_
-
-#include <iostream>
-#include <vector>
-#include <bits/stdc++.h>
-
-using namespace std;
-
 class Hash
 {
     public:

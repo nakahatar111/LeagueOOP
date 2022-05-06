@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <vector>
 #include <string.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 #include "Info.h"
@@ -55,17 +56,13 @@ void ReadFile(string fileName, Hash& hashtable){
         if(type == 2)
           word = arr[1].getName() + "_" + word;
 
-        //find if obj already exists
-        int counter = 0;
-        int idx = 0;
         //finding if it exists
         Node* exist = hashtable.searchHash(word);
         
         if(exist == nullptr){
-          Info infoObj(word, index);
+          Info infoObj(word);
           hashtable.insertItem(Node(infoObj, type));
           arr[type] = infoObj;
-          index++;
         }
         else{
           arr[type] = exist->getInfo();
