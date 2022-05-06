@@ -51,6 +51,22 @@ void Hash::displayHash()
     }
 }
 
+void Hash::displayAdj()
+{
+    for (int i = 0; i < BUCKET; i++){
+      for(Node x : table.at(i)){
+        cout << " Team/Year  " << x.getName();
+        for (Info y : x.getTeamVec())
+          cout << "-> " << y.getName();
+        //print list of adj Player
+        cout << endl << " Player     " << x.getName();;
+        for (Info y : x.getPlayerVec())
+          cout << "-> " << y.getName();
+        cout << endl << endl;
+      }
+    }
+}
+
 Node* Hash::searchHash(string key)
 {
     int index = hashFunction(key);
@@ -63,17 +79,12 @@ Node* Hash::searchHash(string key)
 }
 
 void Hash::addEdge(){
-    for (int i = 0; i < BUCKET; i++) 
-    {
-        for(Node x : table.at(i))
-        {
-            if(x.getType() == 2){ // get Year Node
+    for (int i = 0; i < BUCKET; i++){
+        for(Node x : table.at(i)){
+            if(x.getType() == 2 && (x.getPlayerVec().size() > 0)){ // get Year Node
                 vector<Info> PlayerVec = x.getPlayerVec();
-                for(int i = 0; i < PlayerVec.size() - 1 ; i++)
-                {
-                    for(int j = i + 1; j < PlayerVec.size(); j++)
-                    {
-                        cout << "jasdkf" << endl;
+                for(int i = 0; i < PlayerVec.size() - 1 ; i++){
+                    for(int j = i + 1; j < PlayerVec.size(); j++){
                         searchHash(PlayerVec.at(i).getName())->getPlayerVec().push_back(PlayerVec.at(j));
                         searchHash(PlayerVec.at(j).getName())->getPlayerVec().push_back(PlayerVec.at(i));
                     } 

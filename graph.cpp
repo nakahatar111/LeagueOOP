@@ -27,24 +27,9 @@ void addPlayerEdge(Hash& hashtable, Info obj1, Info obj2){//when adding edges, w
 }
 //obj1 = y and obj2 = p
 void addYearEdge(Hash& hashtable, Info obj1, Info obj2){//when adding edges, we got to index of obj1, and append obj2 to the Player Vector of Info
-  hashtable.searchHash(obj1.getName())->getTeamVec().push_back(obj2);
-  hashtable.searchHash(obj2.getName())->getPlayerVec().push_back(obj1);
+  hashtable.searchHash(obj1.getName())->getPlayerVec().push_back(obj2);
+  hashtable.searchHash(obj2.getName())->getTeamVec().push_back(obj1);
 }
-
-// void printGraph(Hash& hashtable){ //simply look through the two Vectors inside Node
-//   for (int v = 0; v < 64; ++v) {
-//     cout << endl << "Adjacency list of vertex " << v << endl;
-//     //print list of adj Team/Year
-//     cout << " Team/Year  " << hashtable.searchHash(v)->getName();
-//     for (Info x : adj.at(v).getTeamVec())
-//       cout << "-> " << x.getName();
-//     //print list of adj Player
-//     cout << endl << " Player     " << adj.at(v).getName();;
-//     for (Info x : adj.at(v).getPlayerVec())
-//       cout << "-> " << x.getName();
-//     cout << endl;
-//   }
-// }
 
 bool findTeamAdj(Hash& hashtable, Info obj1, Info obj2){
   vector<Info> TeamVec = hashtable.searchHash(obj1.getName())->getTeamVec();
@@ -54,71 +39,7 @@ bool findTeamAdj(Hash& hashtable, Info obj1, Info obj2){
   return false;
 }
 
-/*
-void ReadFile(string fileName, vector<Node>& adj){
-  string line;
-  ifstream myfile (fileName);
-  if (myfile.is_open()){
-    int index = 0;
-    while(getline(myfile,line)){
-      string word;
-      istringstream ss(line);
-      Info arr[3];
-      int type_counter = 0;
-      while(getline(ss, word, ',')){
-        int type = type_counter%3;
-        type_counter++;
-        if(type == 2)
-          word = arr[1].getName() + "_" + word;
-
-        //find if obj already exists
-        bool exist = false;
-        int counter = 0;
-        int idx = 0;
-        for(Node x : adj){
-          if(!word.compare(x.getName())){
-            exist = true;
-            idx = counter;
-          }
-          counter++;
-        }
-        if(!exist){
-          Info infoObj(word, index);
-          adj.push_back(Node(infoObj, type));
-          arr[type] = infoObj;
-          index++;
-        }
-        else{
-          Info infoObj = adj.at(idx).getInfo();
-          arr[type] = infoObj;
-        }
-      }
-      if(!findTeamAdj(adj, arr[1], arr[2]))
-        addTeamEdge(adj, arr[1], arr[2]);
-      if(!findTeamAdj(adj, arr[0], arr[2]))
-        addYearEdge(adj, arr[2], arr[0]);
-    }
-    //connect red edges
-    
-  cout << "here" << endl;
-    for(Node x : adj){
-      if(x.getType() == 2){
-        vector<Info> PlayerVec = x.getPlayerVec();
-        for(int i = 0; i < PlayerVec.size() - 1 ; i++){
-          for(int j = i + 1; j < PlayerVec.size(); j++){
-            addPlayerEdge(adj, PlayerVec.at(i), PlayerVec.at(j));
-          } 
-        }
-      }
-    }
-    myfile.close();
-  }
-  else
-    cout << "Could not open file " << fileName << endl;
-}
-*/
-
-void HashReadFile(string fileName, Hash& hashtable){
+void ReadFile(string fileName, Hash& hashtable){
   string line;
   ifstream myfile (fileName);
   if (myfile.is_open()){
@@ -157,8 +78,8 @@ void HashReadFile(string fileName, Hash& hashtable){
     }
     //connect red edges
     
-    cout << "here" << endl;
-    //hashtable.addEdge();
+    //cout << "here" << endl;
+    hashtable.addEdge();
     myfile.close();
   }
   else
@@ -170,38 +91,15 @@ int main (int argc, char *argv[]){
   //Initalize adjacency list of Nodes
   //-> Adjaceny List will be a vector of Nodes
   //--> Nodes will have two vectors (Player adj Vector and Team adj Vector) + any Info needed
-  
-  Info LA("LA", 0);
-  Info BC("Mike1",1); 
-  Info Mike("Mike2",10); 
-  Node node1(LA, 1);
-  Node node2(BC, 1);
-  Node node3(Mike, 0);
 
   //testing if hash works
   int V = 64;
   Hash hashtable(V);
-  // int result = hashtable.hashFunction("shit");
-  // cout << result<< endl;
-  hashtable.insertItem(node1);
-  hashtable.insertItem(node2);
-  hashtable.insertItem(node3);
-  // cout << result << endl << endl;
-  
-
-  cout << endl;
 
   string file = "input.txt";
-  HashReadFile(file, hashtable);
-  // printGraph(hashtable);
+  ReadFile(file, hashtable);
   hashtable.displayHash();
-
-  Node* node = hashtable.searchHash("hisdafiasidf");
-  if(node != nullptr)
-  {
-    cout << node->getName() << endl;
-  }
-  
+  hashtable.displayAdj();
 
 }
 
