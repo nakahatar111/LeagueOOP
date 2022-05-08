@@ -6,38 +6,24 @@
 #include <unistd.h>
 #include <vector>
 #include <string.h>
+#include <queue>
 #include <bits/stdc++.h>
 using namespace std;
-
-#include "Info.h"
 #include "Node.h"
 #include "hash.h"
 //Info stores the name and Index
 //Node stores Info and whether the Node is a Player, Team, Year
   // Additionally, Node stores two vectors, Adj Players and Adj Team/Year
-
-
-void addTeamEdge(Hash& hashtable, Info obj1, Info obj2){ //when adding edges, we got to index of obj1, and append obj2 to the Team Vector of Info
-  hashtable.searchHash(obj1.getName())->getTeamVec().push_back(obj2);
-  hashtable.searchHash(obj2.getName())->getTeamVec().push_back(obj1);
+void addTeamEdge(Hash& hashtable, string obj1, string obj2){ //when adding edges, we got to index of obj1, and append obj2 to the Team Vector of string
+  hashtable.searchHash(obj1)->addTeam(obj2);
+  hashtable.searchHash(obj2)->addTeam(obj1);
 }
-
-void addPlayerEdge(Hash& hashtable, Info obj1, Info obj2){//when adding edges, we got to index of obj1, and append obj2 to the Player Vector of Info
-  hashtable.searchHash(obj1.getName())->getPlayerVec().push_back(obj2);
-  hashtable.searchHash(obj2.getName())->getPlayerVec().push_back(obj1);
+void addYearEdge(Hash& hashtable, string obj1, string obj2){//when adding edges, we got to index of obj1, and append obj2 to the Player Vector of string
+  hashtable.searchHash(obj1)->addPlayer(obj2);
+  hashtable.searchHash(obj2)->addTeam(obj1);
 }
-//obj1 = y and obj2 = p
-void addYearEdge(Hash& hashtable, Info obj1, Info obj2){//when adding edges, we got to index of obj1, and append obj2 to the Player Vector of Info
-  hashtable.searchHash(obj1.getName())->getPlayerVec().push_back(obj2);
-  hashtable.searchHash(obj2.getName())->getTeamVec().push_back(obj1);
-}
-
-bool findTeamAdj(Hash& hashtable, Info obj1, Info obj2){
-  vector<Info> TeamVec = hashtable.searchHash(obj1.getName())->getTeamVec();
-  for(Info x : TeamVec)
-    if(!x.getName().compare(obj2.getName()))
-      return true;
-  return false;
+bool findTeamAdj(Hash& hashtable, string obj1, string obj2){
+  return hashtable.searchHash(obj1)->findTeam(obj2);
 }
 
 void ReadFile(string fileName, Hash& hashtable){
@@ -48,34 +34,29 @@ void ReadFile(string fileName, Hash& hashtable){
     while(getline(myfile,line)){
       string word;
       istringstream ss(line);
-      Info arr[3];
+      string arr[3];
       int type_counter = 0;
       while(getline(ss, word, ',')){
         int type = type_counter%3;
         type_counter++;
         if(type == 2)
-          word = arr[1].getName() + "_" + word;
+          word = arr[1] + "_" + word;
 
         //finding if it exists
         Node* exist = hashtable.searchHash(word);
         
         if(exist == nullptr){
-          Info infoObj(word);
-          hashtable.insertItem(Node(infoObj, type));
-          arr[type] = infoObj;
+          hashtable.insertItem(Node(word, type));
+          arr[type] = word;
         }
-        else{
+        else
           arr[type] = exist->getInfo();
-        }
       }
       if(!findTeamAdj(hashtable, arr[1], arr[2]))
         addTeamEdge(hashtable, arr[1], arr[2]);
       if(!findTeamAdj(hashtable, arr[0], arr[2]))
         addYearEdge(hashtable, arr[2], arr[0]);
     }
-    //connect red edges
-    
-    //cout << "here" << endl;
     hashtable.addEdge();
     myfile.close();
   }
@@ -83,7 +64,85 @@ void ReadFile(string fileName, Hash& hashtable){
     cout << "Could not open file " << fileName << endl;
 }
 
- 
+void ListPlayedTeam(Hash& hashtable, string player){
+  // Case 2a (Player1, , ) -> print Player1's list of teams, sorted by year
+  Node* adj = hashtable.searchHash(player);
+  if(adj != NULL){
+    for(int i = 0; i < adj->getTeamSize(); i++){
+      string Team = adj->getTeamAt(i);
+      string TeamName = Team.substr(0, Team.find('_'));
+      string Year = Team.substr(Team.find('_')+1);
+      cout << player << " player for " << TeamName << " in "<< Year <<endl;
+    }
+  }
+  else
+    cout << "Player "<< player <<" not found" << endl;
+}
+
+void ListPlayedYear(Hash& hashtable, string player, string team){
+  Node* adj = hashtable.searchHash(player);
+  string Team = "";
+  if(adj != NULL){
+    for(int i = 0; i < adj->getTeamSize(); i++){
+      Team = adj->getTeamAt(i);
+      if(!team.compare(Team.substr(0, Team.find('_')))){
+        string TeamName = adj->getTeamAt(i).substr(0, adj->getTeamAt(i).find('_'));
+        string Year = Team.substr(Team.find('_')+1);
+        cout << player << " player for " << TeamName << " in "<< Year <<endl;
+      }
+    }
+  }
+  else
+    cout << "Player "<< player <<" not found" << endl;
+}
+  // Case 3 ( , , Team) -> print all players who played on Team
+  // Get index of Team in array
+  // Go to Team Node
+  // Do Node.getTeamVec() to get the Years the team played
+  // For each Year,
+  //   go to Year Node in array
+  //   Do Node.getPlayerVec() to get Players under that year
+  //   Print
+void ListPlayer(Hash& hashtable, string team){
+  Node* adjYears = hashtable.searchHash(team);
+  string year = "";
+  if(adjYears != NULL){
+    for(int i = 0; i < adjYears->getTeamSize(); i++){
+      year = adjYears->getTeamAt(i);
+      Node* adjPlayers = hashtable.searchHash(year);
+      string player = "";
+      for(int i = 0; i < adjPlayers->getPlayerSize(); i++){
+        player = adjPlayers->getPlayerAt(i);
+        string TeamName = year.substr(0, year.find('_'));
+        string yearPlayed = year.substr(year.find('_')+1);
+        cout << player << " played on "<< TeamName << " in " << yearPlayed << endl;
+      }
+    }
+  }
+}
+
+void ShortestPath(Hash& hashtable, string playerA, string playerB){
+  cout << "this is no where near BFS lolol" << endl;
+  cout << "Finding Shortest Path from " << playerA << " to " << playerB << "..."<< endl << endl;
+  queue<string> queue;
+  queue.push(playerA);
+  while(!queue.empty()){
+    string path = queue.front();
+    queue.pop();
+    cout << path << "->";
+    if(!path.compare(playerB)){
+      cout << "found"<< endl;
+      return;
+    }
+    Node* currentNode = hashtable.searchHash(path);
+    for(int i = 0; i < currentNode->getPlayerSize(); i++){
+      queue.push(currentNode->getPlayerAt(i));
+    }
+  }
+
+
+
+}
 int main (int argc, char *argv[]){
   //Initalize adjacency list of Nodes
   //-> Adjaceny List will be a vector of Nodes
@@ -97,7 +156,24 @@ int main (int argc, char *argv[]){
   ReadFile(file, hashtable);
   hashtable.displayHash();
   hashtable.displayAdj();
-
+  //case 2a
+  cout << "Case2a:" << endl;
+  ListPlayedTeam(hashtable, "Mike Lewis");
+  cout << endl;
+  ListPlayedTeam(hashtable, "Mike Leswis");
+  cout << endl;
+  ListPlayedTeam(hashtable, "Yu Sun");
+  cout << endl;
+  cout << "Case2b:" << endl;
+  ListPlayedYear(hashtable, "Yu Sun", "LA Lakers");
+  cout << endl;
+  cout << "Case3:" << endl;
+  ListPlayer(hashtable, "LA Lakers");
+  cout << endl;
+  cout << "Case4a:" << endl;
+  ShortestPath(hashtable, "Mike Lewis", "Yu Sun");
+  //cout << "Case4b:" << endl;
+  
 }
 
 /*

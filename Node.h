@@ -4,24 +4,28 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
-#include "Info.h"
 
 using namespace std;
 class Node{
   public:
     Node();
-    Node(Info info, int key); // key = 0,1,2 -> 0 = player, 1 = team, 2 = year
+    Node(string info, int key); // key = 0,1,2 -> 0 = player, 1 = team, 2 = year
     Node(const Node& other);
-    string getName();
-    int getIndex();
-    Info& getInfo();
+    string getInfo();
     int getType();
-    vector<Info>& getTeamVec();
-    vector<Info>& getPlayerVec();
+    vector<string>& getTeamVec();
+    vector<string>& getPlayerVec();
+    bool findTeam(string data);
+    void addTeam(string data);
+    void addPlayer(string data);
+    string getPlayerAt(int i);
+    string getTeamAt(int i);
+    int getPlayerSize();
+    int getTeamSize();
   private:
     int type = -1;
-    Info data;
-    vector<Info> team;
-    vector<Info> player;
+    string info = "";
+    vector<string> team;
+    vector<string> player;
 };
 #endif

@@ -4,28 +4,23 @@
 #include <vector>
 #include "Node.h"
 #include "hash.h"
-#include "Info.h"
 
 using namespace std;
 
 Hash::Hash(int V)
 {
-    this->BUCKET = V;
-    // table = new vector<Node>[BUCKET];
-    //vector<Node> table;
+    BUCKET = V;
     table.resize(BUCKET);
 }
 
 void Hash::insertItem(Node key)
 {
-    string name = key.getName();
-    int index = hashFunction(name);
+    int index = hashFunction(key.getInfo());
     table.at(index).push_back(key);
 }
 
 int Hash::hashFunction(string key)
 { 
-    
     int sum = 0;
     int length = 3;
     if(key.length() < 3)
@@ -40,13 +35,10 @@ int Hash::hashFunction(string key)
 
 void Hash::displayHash()
 {
-    for (int i = 0; i < BUCKET; i++) 
-    {
+    for (int i = 0; i < BUCKET; i++) {
         cout << i << " ";
         for(Node x : table.at(i))
-        {
-            cout << x.getName() << "--> "; 
-        }
+            cout << x.getInfo() << "--> "; 
         cout << endl;
     }
 }
@@ -55,13 +47,13 @@ void Hash::displayAdj()
 {
     for (int i = 0; i < BUCKET; i++){
       for(Node x : table.at(i)){
-        cout << " Team/Year  " << x.getName();
-        for (Info y : x.getTeamVec())
-          cout << "-> " << y.getName();
+        cout << " Team/Year  " << x.getInfo();
+        for (string y : x.getTeamVec())
+          cout << "-> " << y;
         //print list of adj Player
-        cout << endl << " Player     " << x.getName();;
-        for (Info y : x.getPlayerVec())
-          cout << "-> " << y.getName();
+        cout << endl << " Player     " << x.getInfo();;
+        for (string y : x.getPlayerVec())
+          cout << "-> " << y;
         cout << endl << endl;
       }
     }
@@ -70,23 +62,21 @@ void Hash::displayAdj()
 Node* Hash::searchHash(string key)
 {
     int index = hashFunction(key);
-    for(int i = 0; i < table.at(index).size(); i++){
-        if(table.at(index).at(i).getName() == key){
+    for(int i = 0; i < table.at(index).size(); i++)
+        if(table.at(index).at(i).getInfo() == key)
             return &(table.at(index).at(i));
-        }   
-    }
+            
     return nullptr;
 }
 
 void Hash::addEdge(){
     for (int i = 0; i < BUCKET; i++){
-        for(Node x : table.at(i)){
-            if(x.getType() == 2 && (x.getPlayerVec().size() > 0)){ // get Year Node
-                vector<Info> PlayerVec = x.getPlayerVec();
-                for(int i = 0; i < PlayerVec.size() - 1 ; i++){
-                    for(int j = i + 1; j < PlayerVec.size(); j++){
-                        searchHash(PlayerVec.at(i).getName())->getPlayerVec().push_back(PlayerVec.at(j));
-                        searchHash(PlayerVec.at(j).getName())->getPlayerVec().push_back(PlayerVec.at(i));
+        for(Node node : table.at(i)){
+            if(node.getType() == 2 && (node.getPlayerSize() > 0)){ // get Year Node
+                for(int i = 0; i < node.getPlayerSize() - 1 ; i++){
+                    for(int j = i + 1; j < node.getPlayerSize(); j++){
+                        searchHash(node.getPlayerAt(i))->addPlayer(node.getPlayerAt(j));
+                        searchHash(node.getPlayerAt(j))->addPlayer(node.getPlayerAt(i));
                     } 
                 }
             }
