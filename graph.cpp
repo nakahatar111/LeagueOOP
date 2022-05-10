@@ -25,6 +25,8 @@ bool findTeamAdj(Hash& hashtable, Info obj1, Info obj2){
   return hashtable.searchHash(obj1.getName())->findTeam(obj2);
 }
 
+
+
 void ReadFile(string fileName, Hash& hashtable){
   string line;
   ifstream myfile (fileName);
@@ -39,11 +41,22 @@ void ReadFile(string fileName, Hash& hashtable){
     cout << "Could not open file " << fileName << endl;
     return;
   }
-
+  string temp ="";
   //fileLines is vector of input file lines, now sort it.
+  for(int i = 0; i < fileLines.size(); ++i){ //here is the slow af sort xD
+    for(int j = i+1; j < fileLines.size(); ++j){
+      if(fileLines.at(i) > fileLines.at(j)){
+        temp = fileLines.at(i);
+        fileLines.at(i) = fileLines.at(j);
+        fileLines.at(j) = temp;
+      }
+    }
+  }
+
 
   int index = 0;
   for(int i = 0; i < fileLines.size(); i++){
+    cout << fileLines.at(i) << endl;
     string word;
     istringstream ss(fileLines.at(i));
     Info arr[3];
@@ -201,9 +214,32 @@ void printSD(Hash& hashtable, string playerA, string playerB, int v, vector<Info
 
 
 int main (int argc, char *argv[]){
+//     string inputfile;
+
+//     int c = 0;
+
+//     while((c = getopt(argc, argv, "i:s:d:t: ")) != -1){
+
+//         switch(c){
+//             case 'i':
+//               inputfile = optarg;
+//               break;
+
+//             case 's':
+//               break;
+//             case 'd':
+//               break;
+//             case 't':
+//               break;
+//             default:
+//                 break;
+//             }
+//     }
   int V = 64;
   Hash hashtable(V);
-
+  // if(inputfile.empty()){
+  //   return -1;
+  // }
   string file = "input.txt";
   ReadFile(file, hashtable);
   hashtable.displayHash();
