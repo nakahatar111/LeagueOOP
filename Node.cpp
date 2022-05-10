@@ -8,10 +8,10 @@ using namespace std;
 
 
 Node::Node(){
-    info = "";
+    info = Info();
     type = -1;
 }
-Node::Node(string data, int key){ // key = 0,1,2 -> 0 = player, 1 = team, 2 = year
+Node::Node(Info data, int key){ // key = 0,1,2 -> 0 = player, 1 = team, 2 = year
     info = data;
     type = key;
 }
@@ -21,7 +21,7 @@ Node::Node(const Node& other){
     team = other.team;
     player = other.player;
 }
-string Node::getInfo()
+Info Node::getInfo()
 {
     return info;
 }
@@ -29,35 +29,35 @@ int Node::getType()
 {
     return type;
 }
-vector<string>& Node::getTeamVec()
+vector<Info>& Node::getTeamVec()
 {
     return team;
 }
-vector<string>& Node::getPlayerVec()
+vector<Info>& Node::getPlayerVec()
 {
     return player;
 }
-void Node::addTeam(string data){
+void Node::addTeam(Info data){
     team.push_back(data);
 }
-void Node::addPlayer(string data){
+void Node::addPlayer(Info data){
     player.push_back(data);
 }
 int Node::getPlayerSize(){
     return player.size();
 }
-string Node::getPlayerAt(int i){
+Info Node::getPlayerAt(int i){
     return player.at(i);
 }
 int Node::getTeamSize(){
     return team.size();
 }
-string Node::getTeamAt(int i){
+Info Node::getTeamAt(int i){
     return team.at(i);
 }
-bool Node::findTeam(string data){
+bool Node::findTeam(Info data){
   for(int i = 0; i < team.size(); i++)
-    if(!team.at(i).compare(data))
+    if(!team.at(i).getName().compare(data.getName()))
       return true;
   return false;
 }

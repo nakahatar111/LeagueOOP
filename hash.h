@@ -11,8 +11,10 @@ class Hash
         Node* searchHash(string key);
         void addEdge();
         void displayAdj();
+        int getSize();
     private: 
         int BUCKET;
+        int size;
         vector<vector<Node>> table;
 };
 
