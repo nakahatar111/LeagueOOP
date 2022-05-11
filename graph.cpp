@@ -92,7 +92,7 @@ void ListPlayedTeam(Hash& hashtable, string player){
       Info Team = adj->getTeamAt(i);
       string TeamName = Team.getName().substr(0, Team.getName().find('_'));
       string Year = Team.getName().substr(Team.getName().find('_')+1);
-      cout << player << " player for " << TeamName << " in "<< Year <<endl;
+      cout << player << " played for the " << TeamName << " in "<< Year <<endl;
     }
   }
   else
@@ -101,6 +101,11 @@ void ListPlayedTeam(Hash& hashtable, string player){
 
 void ListPlayedYear(Hash& hashtable, string player, string team){
   Node* adj = hashtable.searchHash(player);
+  Node* findTeam = hashtable.searchHash(team);
+  if(findTeam == NULL){
+    cout << "Team " << team << " was not found" << endl;
+    return;
+  }
   Info Team;
   if(adj != NULL){
     for(int i = 0; i < adj->getTeamSize(); i++){
@@ -271,7 +276,7 @@ bool ShortestPathWithTeam(Hash& hashtable, string playerA, string playerB, strin
     destIdx = destNodeptr->getInfo().getIndex();
     destNode = *destNodeptr;
     if((!sameTeam(srcNode, team)) || (!sameTeam(destNode, team))){
-      cout << "Not in "<< team << endl;
+      cout << "Error: Players are not all in "<< team << endl;
       return false;
     }
   }
