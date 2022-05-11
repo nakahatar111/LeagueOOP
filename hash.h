@@ -9,7 +9,7 @@ class Hash
         int hashFunction(string key);
         void displayHash();
         Node* searchHash(string key);
-        void addEdge();
+        void addEdge(vector<string>& yearNodes);
         void displayAdj();
         int getSize();
     private: 

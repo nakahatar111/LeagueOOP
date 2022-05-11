@@ -21,17 +21,22 @@ void Hash::insertItem(Node key)
 }
 
 int Hash::hashFunction(string key)
-{ 
+{   /*
     int sum = 0;
-    int length = 3;
-    if(key.length() < 3)
-        length = key.length();
-    for(int i = 0; i < length; i++)
+    for(int i = 0; i < key.length(); i++)
     {
         char x = key.at(i);
         sum += (int)x;
     }
-    return sum % BUCKET;
+    cout << "index = "<< (25*sum)% BUCKET << endl;
+    */
+   int hash = 5381;
+    for(int i = 0; i < key.length(); i++)
+    {
+        hash = (hash * 2) + key.at(i);
+        hash = hash%2302019;
+    }
+    return (hash)%BUCKET;
 }
 
 void Hash::displayHash()
@@ -40,8 +45,7 @@ void Hash::displayHash()
         cout << i << " ";
         for(Node x : table.at(i))
         {
-            cout << x.getInfo().getName() << "--> "; 
-            cout << "THIS IS THE INDEX" << x.getInfo().getIndex();
+            cout << x.getInfo().getName() << "--> ";
         }
         cout << endl;
     }
@@ -73,19 +77,18 @@ Node* Hash::searchHash(string key)
     return nullptr;
 }
 
-void Hash::addEdge(){
-    for (int i = 0; i < BUCKET; i++){
-        for(Node node : table.at(i)){
-            if(node.getType() == 2 && (node.getPlayerSize() > 0)){ // get Year Node
-                for(int i = 0; i < node.getPlayerSize() - 1 ; i++){
-                    for(int j = i + 1; j < node.getPlayerSize(); j++){
-                        searchHash(node.getPlayerAt(i).getName())->addPlayer(node.getPlayerAt(j));
-                        searchHash(node.getPlayerAt(j).getName())->addPlayer(node.getPlayerAt(i));
-                    } 
-                }
-            }
+void Hash::addEdge(vector<string>& yearNodes){
+  for(string years : yearNodes){ // totals to N
+    Node node = *(searchHash(years));
+    if(node.getPlayerSize() > 0){ // get Year Node
+      for(int i = 0; i < node.getPlayerSize() - 1 ; i++){ // E
+        for(int j = i + 1; j < node.getPlayerSize(); j++){
+          searchHash(node.getPlayerAt(i).getName())->addPlayer(node.getPlayerAt(j));
+          searchHash(node.getPlayerAt(j).getName())->addPlayer(node.getPlayerAt(i));
         }
+      }
     }
+  }
 }
 
 int Hash::getSize(){

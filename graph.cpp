@@ -53,10 +53,9 @@ void ReadFile(string fileName, Hash& hashtable){
     }
   }
 
-
+  vector<string> allYearNodes;
   int index = 0;
   for(int i = 0; i < fileLines.size(); i++){
-    //cout << fileLines.at(i) << endl;
     string word;
     istringstream ss(fileLines.at(i));
     Info arr[3];
@@ -81,8 +80,9 @@ void ReadFile(string fileName, Hash& hashtable){
       addTeamEdge(hashtable, arr[1], arr[2]);
     if(!findTeamAdj(hashtable, arr[0], arr[2]))
       addYearEdge(hashtable, arr[2], arr[0]);
+    allYearNodes.push_back(arr[2].getName());
   }
-  hashtable.addEdge();
+  hashtable.addEdge(allYearNodes);
 }
 
 void ListPlayedTeam(Hash& hashtable, string player){
@@ -368,10 +368,9 @@ int main (int argc, char *argv[]){
       }
   }
   
-  int V = 64;
+  int V = 2500;
   Hash hashtable(V);
   ReadFile(inputfile, hashtable);
-  //hashtable.displayAdj();
   //case 0a
   if(inputfile.empty()){
     cout << "Case0a:" << endl;
@@ -398,30 +397,16 @@ int main (int argc, char *argv[]){
       cout << "Could not open file " << inputfile << endl;
     }
   }
-  // hashtable.displayHash();
-  // hashtable.displayAdj();
-  //case 2a
   else if((!inputfile.empty()) && (!player1Name.empty()) && (player2Name.empty()) && (teamName.empty())){
     cout << "Case2a:" << endl;
     ListPlayedTeam(hashtable, player1Name);
     cout << endl;
   }
-  // cout << "Case2a:" << endl;
-  // ListPlayedTeam(hashtable, "Mike Lewis");
-  // cout << endl;
-  // ListPlayedTeam(hashtable, "Mike Leswis");
-  // cout << endl;
-  // ListPlayedTeam(hashtable, "Yu Sun");
-  // cout << endl;
   else if((!inputfile.empty()) && (!player1Name.empty()) && (player2Name.empty()) && (!teamName.empty())){
     cout << "Case2b:" << endl;
     ListPlayedYear(hashtable, player1Name, teamName);
     cout << endl;
   }
-  // cout << "Case2b:" << endl;
-  // ListPlayedYear(hashtable, player1Name, teamName);
-  // cout << endl;
-  // cout << "Case3:" << endl;
   else if((!inputfile.empty()) && (player1Name.empty()) && (player2Name.empty()) && (!teamName.empty())){
     cout << "Case3:" <<  endl;
     ListPlayer(hashtable, teamName);
@@ -437,25 +422,12 @@ int main (int argc, char *argv[]){
     string B = player2Name;
     bool foundPath = ShortestPath(hashtable, A, B, v, pred, dist);
     if(foundPath){
-      // cout << "pred " << endl << endl;
-      // for(Info x : pred){
-      //   cout << "index and name: " << x.getIndex() << " " << x.getName() << endl;
-      // }
-      // cout << "dist " << endl << endl;
-
-      // for(int x : dist){
-      //   cout << "index: " << x << endl;
-      // }
       printSD(hashtable, A, B, v, pred, dist);
     }
     else
     {
       cout << "No teammate path exists between " << player1Name << " and " << player2Name  << endl;
     }
-
-    // ListPlayer(hashtable, "LA Lakers");
-    // cout << endl;
-
   }
   else if( (!inputfile.empty()) && (!player1Name.empty()) && (!player2Name.empty()) && (!teamName.empty())){
     cout << "Case 4b:" << endl;
