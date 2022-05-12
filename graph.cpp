@@ -133,11 +133,11 @@ void ListPlayer(Hash& hashtable, string team){
     int count;
   };
   vector<player> list;
-  Node* adjYears = hashtable.searchHash(team);
+  Node* teamNode = hashtable.searchHash(team);
   Info year;
-  if(adjYears != NULL){
-    for(int i = 0; i < adjYears->getTeamSize(); i++){
-      year = adjYears->getTeamAt(i);
+  if(teamNode != NULL){
+    for(int i = 0; i < teamNode->getTeamSize(); i++){
+      year = teamNode->getTeamAt(i);
       Node* adjPlayers = hashtable.searchHash(year.getName());
       Info person;
       for(int i = 0; i < adjPlayers->getPlayerSize(); i++){
