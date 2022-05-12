@@ -92,11 +92,11 @@ void ListPlayedTeam(Hash& hashtable, string player){
       Info Team = adj->getTeamAt(i);
       string TeamName = Team.getName().substr(0, Team.getName().find('_'));
       string Year = Team.getName().substr(Team.getName().find('_')+1);
-      cout << player << " played for the " << TeamName << " in "<< Year <<endl;
+      cout << player << " played for the " <<Year <<" " << TeamName  <<endl;
     }
   }
   else
-    cout << "Player "<< player <<" not found" << endl;
+    cout << player <<" does not appear in the input file" << endl;
 }
 
 void ListPlayedYear(Hash& hashtable, string player, string team){
@@ -107,18 +107,24 @@ void ListPlayedYear(Hash& hashtable, string player, string team){
     return;
   }
   Info Team;
+  bool played = false;
   if(adj != NULL){
     for(int i = 0; i < adj->getTeamSize(); i++){
       Team = adj->getTeamAt(i);
       if(!team.compare(Team.getName().substr(0, Team.getName().find('_')))){
+        played = true;
         string TeamName = Team.getName().substr(0, adj->getTeamAt(i).getName().find('_'));
         string Year = Team.getName().substr(Team.getName().find('_')+1);
-        cout << player << " player for " << TeamName << " in "<< Year <<endl;
+        cout << player << " played for " << TeamName << " in "<< Year <<endl;
       }
+    }
+    if(!played){
+      cout << player << " has never played for the " << team << endl;
     }
   }
   else
-    cout << "Player "<< player <<" not found" << endl;
+    cout << player <<" does not appear in the input file" << endl;
+
 }
 
 void ListPlayer(Hash& hashtable, string team){
