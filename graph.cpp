@@ -180,7 +180,6 @@ void ListPlayer(Hash& hashtable, string team){
         prev = list.at(i).count;
         start = i;
       }
-      //cout << !(list.back().name.compare(list.at(i).name)) << " " << (prev != list.at(i).count) << endl;
       if(!(list.back().name.compare(list.at(i).name)) || prev != list.at(i).count){
         prev = list.at(i).count;
         end = i;
@@ -188,7 +187,7 @@ void ListPlayer(Hash& hashtable, string team){
           end = i+1;
         }
         player temp;
-        for(int a = start; a < end; a++){ //here is the slow af sort xD
+        for(int a = start; a < end; a++){
           for(int b = a+1; b < end; b++){
             if(list.at(a).name > list.at(b).name){
               temp = list.at(a);
@@ -302,7 +301,7 @@ bool ShortestPathWithTeam(Hash& hashtable, string playerA, string playerB, strin
         visited.at(playerIdx) = true;
         dist.at(playerIdx) = dist.at(current.getInfo().getIndex()) + 1;
         pred.at(playerIdx) = current.getInfo();
-        //check adj for team
+
         Node adjPlayer = *(hashtable.searchHash(current.getPlayerAt(i).getName()));
         if(sameTeam(adjPlayer, team)){
           queue.push_back(adjPlayer);

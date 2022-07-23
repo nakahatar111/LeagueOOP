@@ -21,15 +21,7 @@ void Hash::insertItem(Node key)
 }
 
 int Hash::hashFunction(string key)
-{   /*
-    int sum = 0;
-    for(int i = 0; i < key.length(); i++)
-    {
-        char x = key.at(i);
-        sum += (int)x;
-    }
-    cout << "index = "<< (25*sum)% BUCKET << endl;
-    */
+{
    int hash = 5381;
     for(int i = 0; i < key.length(); i++)
     {

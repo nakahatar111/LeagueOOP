@@ -13,4 +13,4 @@ Node.o: Node.cpp Node.h hash.h Info.h
 	g++ -c Node.cpp
 
 clean:
-	rm -f Node.o graph.o hash.o graph
+	rm -f *.o *.tar.gz

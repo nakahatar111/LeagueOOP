@@ -1,0 +1,128 @@
+A Schindler,Bearcats,1901
+B Wetzel,Bearcats,1901
+C Ramos,Bearcats,1901
+D Lewis,Bearcats,1901
+E Peck,Bearcats,1901
+F Roofus,Beardog,1901
+G Woofus,Beardog,1901
+H Doofus,Beardog,1901
+I Aloofus,Beardog,1901
+J Goodboy,Beardog,1901
+K Polar,Bearbear,1901
+L Grizzly,Bearbear,1901
+M Black,Bearbear,1901
+N Brown,Bearbear,1901
+O Sun,Bearbear,1901
+P Fish,Antibear,1901
+Q Bubblebass,Antibear,1901
+R BigBen,Antibear,1901
+S LittleBen,Antibear,1901
+T Ben,Antibear,1901
+L Grizzly,Bearcats,1902
+B Wetzel,Bearcats,1902
+C Ramos,Bearcats,1902
+Q Bubblebass,Bearcats,1902
+Alpha Meow,Bearcats,1902
+A Schindler,Beardog,1902
+G Woofus,Beardog,1902
+R BigBen,Beardog,1902
+Delta Bark,Beardog,1902
+J Goodboy,Beardog,1902
+K Polar,Bearbear,1902
+Eta Ursuring,Bearbear,1902
+M Black,Bearbear,1902
+N Brown,Bearbear,1902
+S LittleBen,Bearbear,1902
+P Fish,Antibear,1902
+I Aloofus,Antibear,1902
+Kappa Cow,Antibear,1902
+Lambda Pig,Antibear,1902
+T Ben,Antibear,1902
+R BigBen,Bearcats,1903
+B Wetzel,Bearcats,1903
+C Ramos,Bearcats,1903
+Beta Purr,Bearcats,1903
+E Peck,Bearcats,1903
+F Roofus,Beardog,1903
+K Polar,Beardog,1903
+D Lewis,Beardog,1903
+Epsilon Bite,Beardog,1903
+J Goodboy,Beardog,1903
+A Schindler,Bearbear,1903
+G Woofus,Bearbear,1903
+M Black,Bearbear,1903
+P Fish,Bearbear,1903
+O Sun,Bearbear,1903
+L Grizzly,Antibear,1903
+I Aloofus,Antibear,1903
+N Brown,Antibear,1903
+Mu Greenland,Antibear,1903
+T Ben,Antibear,1903
+G Woofus,Bearcats,1904
+B Wetzel,Bearcats,1904
+O Sun,Bearcats,1904
+P Fish,Bearcats,1904
+Gamma bowlofmilk,Bearcats,1904
+F Roofus,Beardog,1904
+K Polar,Beardog,1904
+R BigBen,Beardog,1904
+Zeta Treat,Beardog,1904
+J Goodboy,Beardog,1904
+I Aloofus,Bearbear,1904
+L Grizzly,Bearbear,1904
+D Lewis,Bearbear,1904
+Theta Newfoundland,Bearbear,1904
+Iota Dandy,Bearbear,1904
+A Schindler,Antibear,1904
+Nu Iceland,Antibear,1904
+N Brown,Antibear,1904
+Xi Swordfish,Antibear,1904
+T Ben,Antibear,1904
+Alfred,Team,1900
+Calvin,Team,1900
+Josef,Team,1900
+Tyler,Team,1900
+Zed,Team,1900
+Alfred,Team,1901
+Calvin,Team,1901
+Josef,Team,1901
+Tyler,Team,1901
+Zed,Team,1901
+Alfred,Team,1902
+Calvin,Team,1902
+Josef,Team,1902
+Tyler,Team,1902
+Zed,Team,1902
+Alfred,Team,1903
+Calvin,Team,1903
+Josef,Team,1903
+Tyler,Team,1903
+Zed,Team,1903
+Alfred,Team,1904
+Calvin,Team,1904
+Josef,Team,1904
+Tyler,Team,1904
+Zed,Team,1904
+Brother Bobby,Tyler Team,1900
+Allen Axeford,Tyler Team,1900
+Allen Axeford,Tyler Team,1901
+Broseph Brobert,Tyler Team,1901
+Broseph Brobert,Tyler Team,1902
+Carmen Caramel,Tyler Team,1902
+Carmen Caramel,Tyler Team,1903
+Duke Dropsy,Tyler Team,1903
+Duke Dropsy,Tyler Team,1904
+Elliot Elephant,Tyler Team,1904
+Elliot Elephant,Tyler Team,1905
+Fuego Flare,Tyler Team,1905
+Fuego Flare,Tyler Team,1906
+Gardenia Gardens,Tyler Team,1906
+Gardenia Gardens,Tyler Team,1907
+Harold Hummer,Tyler Team,1907
+Harold Hummer,Tyler Team,1908
+Isaac Iceberg,Tyler Team,1908
+Isaac Iceberg,Tyler Team,1909
+Jeff Jaspers,Tyler Team,1909
+Jeff Jaspers,Tyler Team,1910
+Sissy Maggy,Tyler Team,1910
+Loney Loser, Tyler Team, 1911
